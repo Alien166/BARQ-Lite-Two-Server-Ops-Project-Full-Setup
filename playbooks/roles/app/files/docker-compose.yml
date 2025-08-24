@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  barq-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: barq-lite
+    command: java -jar barq-lite.jar
+    volumes:
+      - /var/log/barq:/var/log/barq
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080" , "||", "exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

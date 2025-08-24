@@ -1,0 +1,42 @@
+- name: Ensure releases directory exists
+  file:
+    path: /opt/barq/releases
+    state: directory
+    mode: '0755'
+
+- name: Upload barq-lite.jar
+  copy:
+    src: files/barq-lite.jar
+    dest: "/opt/barq/releases/barq-lite-{{ ansible_date_time.epoch }}.jar"
+    mode: '0755'
+
+- name: Update current symlink
+  file:
+    src: "/opt/barq/releases/barq-lite-{{ ansible_date_time.epoch }}.jar"
+    dest: /opt/barq/current
+    state: link
+    force: yes
+
+- name: Ensure log directory exists
+  file:
+    path: /var/log/barq
+    state: directory
+    mode: '0755'
+
+- name: Copy Dockerfile
+  copy:
+    src: files/Dockerfile.app
+    dest: /opt/barq/Dockerfile.app
+
+- name: Copy docker-compose.yml
+  copy:
+    src: files/docker-compose.yml
+    dest: /opt/barq/docker-compose.yml
+
+- name: Build and run Docker Compose
+  shell: |
+    cd /opt/barq
+    docker compose down || true
+    docker compose up -d --build
+  args:
+    chdir: /opt/barq

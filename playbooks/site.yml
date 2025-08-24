@@ -1,0 +1,9 @@
+- name: BARQ Lite – Full Setup
+  hosts: barq-servers
+  serial: 1
+  become: yes
+
+  roles:
+    - setup
+    - scripts
+    - app

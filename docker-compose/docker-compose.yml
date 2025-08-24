@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  barq-server-1:
+    build: .
+    container_name: barq-s1
+    hostname: barq-s1
+    ports:
+      - "2221:22"
+      - "8081:8080"
+    volumes:
+      - ./shared:/opt/shared
+    networks:
+      - barq-network
+    privileged: true
+    tty: true
+
+  barq-server-2:
+    build: .
+    container_name: barq-s2
+    hostname: barq-s2
+    ports:
+      - "2222:22"
+      - "8082:8080"
+    volumes:
+      - ./shared:/opt/shared
+    networks:
+      - barq-network
+    privileged: true
+    tty: true
+
+networks:
+  barq-network:
+    driver: bridge

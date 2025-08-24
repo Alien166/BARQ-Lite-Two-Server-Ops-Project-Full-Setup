@@ -1,0 +1,25 @@
+- name: Copy log management script
+  copy:
+    src: files/log-lite.sh
+    dest: /usr/local/bin/log-lite.sh
+    mode: '0755'
+
+- name: Copy cert report script
+  copy:
+    src: files/cert-lite.sh
+    dest: /usr/local/bin/cert-lite.sh
+    mode: '0755'
+
+- name: Schedule log-lite.sh in cron
+  cron:
+    name: "BARQ log rotation"
+    minute: "10"
+    hour: "1"
+    job: "/usr/local/bin/log-lite.sh"
+
+- name: Schedule cert-lite.sh in cron
+  cron:
+    name: "BARQ cert report"
+    minute: "0"
+    hour: "7"
+    job: "/usr/local/bin/cert-lite.sh"
