@@ -1,1 +1,6 @@
 inventory.ini
+*.log
+*.gz
+/var/reports/
+*.class
+*.jar
