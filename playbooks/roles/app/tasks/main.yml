@@ -10,6 +10,13 @@
     dest: "/opt/barq/releases/barq-lite-{{ ansible_date_time.epoch }}.jar"
     mode: '0755'
 
+- name: Copy barq-lite.jar with fixed name for Docker build
+  copy:
+    src: files/barq-lite.jar
+    dest: /opt/barq/barq-lite.jar
+    mode: '0755'
+
+
 - name: Update current symlink
   file:
     src: "/opt/barq/releases/barq-lite-{{ ansible_date_time.epoch }}.jar"
